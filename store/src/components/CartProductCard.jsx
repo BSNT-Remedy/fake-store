@@ -13,10 +13,8 @@ function CartProductCard({product, isCart = false}) {
             <p>{product.title}</p>
             <p>${product.price}</p>
 
-            {isCart ? (
+            {isCart && (
                 <button onClick={() => removeFromCart(product.id)}>remove</button>
-            ) : (
-                <button onClick={() => addToCart(product)}>+</button>
             )}
         </div>
     </div>

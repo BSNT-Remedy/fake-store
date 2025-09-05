@@ -2,7 +2,7 @@ import "../css/Product.css"
 import { useCart } from "../contexts/CartContext";
 import { useLocation } from "react-router-dom"
 
-function Product({product, isCart = false}) {
+function Product({product}) {
 
     const {addToCart, removeFromCart} = useCart();
     const location = useLocation();
@@ -15,11 +15,7 @@ function Product({product, isCart = false}) {
             <p>{product.title}</p>
             <p>${product.price}</p>
 
-            {isCart ? (
-                <button onClick={() => removeFromCart(product.id)}>-</button>
-            ) : (
-                <button onClick={() => addToCart(product)}>+</button>
-            )}
+            <button onClick={() => addToCart(product)}>+</button>
         </div>
     </div>
 }

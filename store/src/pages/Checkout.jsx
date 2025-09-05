@@ -1,13 +1,33 @@
+import "../css/Checkout.css"
 import CartProductCard from "../components/CartProductCard";
 import { useCart } from "../contexts/CartContext";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
-    const {checkoutItems} = useCart();
+    const {cart, setCart, checkoutItems, setCheckoutItems} = useCart();
+    const navigate = useNavigate();
+
+    const totalPrice = checkoutItems.reduce((total, items) => total + items.price, 0);
+    const tax = totalPrice/10;
+    const totalPriceWithTax = totalPrice + tax;
+
+    function payItems() {
+        setCart(prev => prev.filter(cartItem => checkoutItems.every(checkoutItem => checkoutItem.id !== cartItem.id)))
+        setCheckoutItems([]);
+        navigate("/cart");
+    }
 
     return <div className="checkout">
         {checkoutItems.map(item => (
             <CartProductCard product={item} key={item.id}/>
         ))}
+
+        <div className="payment-details">
+            <h3>Total Price: {totalPrice}</h3>
+            <h3>Tax(10%) : {tax}</h3>
+            <h2>Total Price after tax: {totalPriceWithTax}</h2>
+            <button onClick={payItems}>Pay</button>
+        </div>
     </div>
 }
 
