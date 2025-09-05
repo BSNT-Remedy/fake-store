@@ -1,0 +1,22 @@
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.cart-product-card input{
+    display: block;
+}
+
+.checkout-container {
+    position: fixed;
+    bottom: 0;      
+    left: 0;        
+    width: 100%;    
+    background: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000; 
+}
