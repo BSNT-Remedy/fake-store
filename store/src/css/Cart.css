@@ -20,3 +20,9 @@
     text-align: center;
     z-index: 1000; 
 }
+
+.empty-cart {
+    display: flex;
+    justify-content: center;
+    color: white;
+}

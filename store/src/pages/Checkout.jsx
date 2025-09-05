@@ -23,9 +23,9 @@ function Checkout() {
         ))}
 
         <div className="payment-details">
-            <h3>Total Price: {totalPrice}</h3>
-            <h3>Tax(10%) : {tax}</h3>
-            <h2>Total Price after tax: {totalPriceWithTax}</h2>
+            <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
+            <h3>Tax(10%) : ${tax.toFixed(2)}</h3>
+            <h2>Total Price after tax: ${totalPriceWithTax.toFixed(2)}</h2>
             <button onClick={payItems}>Pay</button>
         </div>
     </div>
