@@ -5,6 +5,14 @@
     padding: 16px;
 }
 
+.cart-product-card {
+    background-color: rgb(105, 105, 105);
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .cart-product-card input{
     display: block;
 }

@@ -1,6 +1,7 @@
 .product-container {
-    background-color: green;
-    flex: 0 0 200px;
+    background-color: yellow;
+    display: grid;
+    grid-template-rows: 300px 1fr;
     max-width: 250px;
     min-width: 200px;
     border-radius: 8px;
@@ -24,6 +25,26 @@
 }
 
 .product-details {
-    background-color: green;
-    padding: 1px 10px;
+    display: grid;
+    grid-template-rows: 20px 1fr;
+    background-color: rgb(0, 0, 0);
+    padding: 10px;
+    color: white;
+}
+
+.product-details button {
+    background-color: rgb(0, 184, 0);;
+    border: none;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.product-details button:hover {
+    background-color: rgb(3, 231, 3);
+    transform: translateY(-2px);
+}
+
+.product-details button:active {
+    background-color: rgb(0, 184, 0);;
+    transform: translateY(0);
 }
