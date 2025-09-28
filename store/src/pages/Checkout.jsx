@@ -12,7 +12,7 @@ function Checkout() {
     const totalPriceWithTax = totalPrice + tax;
 
     function payItems() {
-        setCart(prev => prev.filter(cartItem => checkoutItems.every(checkoutItem => checkoutItem.id !== cartItem.id)))
+        setCart(prev => prev.filter(cartItem => !checkoutItems.some(checkoutItem => checkoutItem.id === cartItem.id)))
         setCheckoutItems([]);
         navigate("/cart");
     }

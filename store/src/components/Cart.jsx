@@ -2,6 +2,7 @@ import "../css/Cart.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
+import { getTotalPrice } from "../utilities/getTotal";
 import CartProductCard from "./CartProductCard";
 
 function Cart() {
@@ -27,6 +28,10 @@ function Cart() {
         }
         navigate("/checkout");
     }
+
+    if(cart.length === 0) return <div className="empty-cart">
+        <h1>Cart is empty, explore some products!!!</h1>
+    </div>
 
     return <div className="cart-container">
         {cart.map((p) => (
