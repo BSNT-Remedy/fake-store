@@ -45,7 +45,7 @@ function Cart() {
             </div>
         ))}
         <div className="checkout-container">
-            <p>Total Price: ${getTotalPrice()}</p>
+            <p>Total Price: ${getTotalPrice().toFixed(2)}</p>
             <button onClick={checkout}>Checkout({checkoutItems.length})</button>
         </div>
     </div>
