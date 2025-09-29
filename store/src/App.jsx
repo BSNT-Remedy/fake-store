@@ -33,7 +33,7 @@ function App() {
       {!loading && products.length === 0 && <div>No items found.</div>}
     </div>
 
-    {showToast.show && <Toast inCart={showToast.inCart}/>}
+    {showToast.show && <Toast inCart={showToast.inCart} productName={showToast.productName}/>}
   </div>
 }
 

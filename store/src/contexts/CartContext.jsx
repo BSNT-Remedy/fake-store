@@ -8,7 +8,7 @@ export const CartProvider = ({children}) => {
 
     const [cart, setCart] = useState([]);
     const [checkoutItems, setCheckoutItems] = useState([]);
-    const [showToast, setShowToast] = useState({show: false, inCart: false});
+    const [showToast, setShowToast] = useState({show: false, inCart: false, productName: ""});
 
     useEffect(() => {
         const saved = localStorage.getItem("cart");
@@ -27,7 +27,7 @@ export const CartProvider = ({children}) => {
     const addToCart = (product) => {
         if(cart.some(p => p.id === product.id)){
             console.log("product already in cart");
-            setShowToast({show: true, inCart: true});
+            setShowToast({show: true, inCart: true, productName: product.title});
             setTimeout(() => {
                 setShowToast({show: false, inCart: false});
             }, 3000);
@@ -36,7 +36,7 @@ export const CartProvider = ({children}) => {
         
         setCart(prev => [...prev, product]);
         console.log(`${product.title} added to cart`)
-        setShowToast({show: true, inCart: false});
+        setShowToast({show: true, inCart: false, productName: product.title});
         setTimeout(() => {
             setShowToast({show: false, inCart: false});
         }, 3000);
