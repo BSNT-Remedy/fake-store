@@ -1,0 +1,33 @@
+.confirm-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(133, 133, 133, 0.432);
+}
+
+.confirm-modal {
+    background-color: white;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1)
+}
+
+.button-container {
+    display:flex;
+    justify-content: center;
+}
+
+.confirm-modal button {
+    background-color: rgb(2, 238, 2);
+    margin: 20px 10px;
+    padding: 10px 30px;
+}
