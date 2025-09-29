@@ -8,6 +8,7 @@ export const CartProvider = ({children}) => {
 
     const [cart, setCart] = useState([]);
     const [checkoutItems, setCheckoutItems] = useState([]);
+    const [showToast, setShowToast] = useState({show: false, inCart: false});
 
     useEffect(() => {
         const saved = localStorage.getItem("cart");
@@ -26,11 +27,19 @@ export const CartProvider = ({children}) => {
     const addToCart = (product) => {
         if(cart.some(p => p.id === product.id)){
             console.log("product already in cart");
+            setShowToast({show: true, inCart: true});
+            setTimeout(() => {
+                setShowToast({show: false, inCart: false});
+            }, 3000);
             return;
         }
         
         setCart(prev => [...prev, product]);
         console.log(`${product.title} added to cart`)
+        setShowToast({show: true, inCart: false});
+        setTimeout(() => {
+            setShowToast({show: false, inCart: false});
+        }, 3000);
     }
 
     const removeFromCart = (id) => {
@@ -43,7 +52,8 @@ export const CartProvider = ({children}) => {
         addToCart,
         removeFromCart,
         checkoutItems,
-        setCheckoutItems
+        setCheckoutItems,
+        showToast
     }
 
     return <CartContext.Provider value={value}>

@@ -1,7 +1,9 @@
 import "./css/App.css"
 import { useState, useEffect } from "react";
 import { useProduct } from "./contexts/ProductContext";
+import { useCart } from "./contexts/CartContext";
 import Product from "./components/Product";
+import Toast from "./components/Toast";
 
 function App() {
   const {
@@ -10,6 +12,7 @@ function App() {
     loading, 
   } = useProduct();
   
+  const {showToast} = useCart();
 
   return <div className="main-content">
     <div className="search-bar">
@@ -29,6 +32,8 @@ function App() {
       }
       {!loading && products.length === 0 && <div>No items found.</div>}
     </div>
+
+    {showToast.show && <Toast inCart={showToast.inCart}/>}
   </div>
 }
 
