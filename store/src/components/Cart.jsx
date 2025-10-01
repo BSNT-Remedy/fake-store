@@ -6,7 +6,7 @@ import { getTotalPrice } from "../utilities/getTotal";
 import CartProductCard from "./CartProductCard";
 
 function Cart() {
-    const {cart, checkoutItems, setCheckoutItems} = useCart();
+    const {cart, checkoutItems, setCheckoutItems, showToast} = useCart();
     const navigate = useNavigate();
 
     function addToCheckout({product}) {

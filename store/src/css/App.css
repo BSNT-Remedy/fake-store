@@ -15,9 +15,9 @@
 .search-bar input {
     border: none;
     height: 30px;
-    width: 300px;
+    width: 350px;
     border-radius: 3px;
-    margin: 20px;
+    margin: 90px 0px 20px;
     background-color: rgb(92, 92, 92);
     color: white;
 }
