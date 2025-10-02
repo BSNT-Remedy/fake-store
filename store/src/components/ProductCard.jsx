@@ -1,11 +1,11 @@
 import "../css/Product.css"
+import React from 'react';
 import { useCart } from "../contexts/CartContext";
-import { useLocation } from "react-router-dom"
 
-function Product({product}) {
+const ProductCard = React.memo(({product, addToCart}) => {
+    console.log("Render: ", product.title)
 
-    const {addToCart, removeFromCart} = useCart();
-    const location = useLocation();
+    // const {addToCart, removeFromCart} = useCart();
 
     return <div className="product-container">
         <div className="product-image">
@@ -17,6 +17,6 @@ function Product({product}) {
             <button onClick={() => addToCart(product)}>+</button>
         </div>
     </div>
-}
+})
 
-export default Product;
+export default ProductCard;

@@ -1,8 +1,8 @@
 import "./css/App.css"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useProduct } from "./contexts/ProductContext";
 import { useCart } from "./contexts/CartContext";
-import Product from "./components/Product";
+import ProductCard from "./components/ProductCard";
 import Toast from "./components/Toast";
 
 function App() {
@@ -12,7 +12,12 @@ function App() {
     loading, 
   } = useProduct();
   
-  const {showToast} = useCart();
+  const {showToast, addToCart} = useCart();
+
+  const handleAddToCart = useCallback(
+    (product) => addToCart(product),
+    [addToCart]
+  );
 
   return <div className="main-content">
     <div className="search-bar">
@@ -26,7 +31,7 @@ function App() {
       {loading ? "Loading..." : 
         (
           products.map((p) => (
-            <Product product={p} key={p.id}/>
+            <ProductCard product={p} addToCart={handleAddToCart} key={p.id}/>
           ))
         )
       }

@@ -9,6 +9,7 @@ export const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [query, setQuery] = useState("");
+    const [debouncedQuery, setDebouncedQuery] = useState("");
     const [loading, setLoading] = useState(false);
 
     async function fetchProducts() {
@@ -20,7 +21,7 @@ export const ProductProvider = ({children}) => {
             setProducts(data);
             setAllProducts(data);
           } else {
-            const data = await searchProducts(query);
+            const data = await searchProducts(debouncedQuery);
             setProducts(data);
           }
         } catch(error) {
@@ -35,16 +36,22 @@ export const ProductProvider = ({children}) => {
       }, [])
     
       useEffect(() => {
-        fetchProducts()
-      
-        const timeout = setTimeout(fetchProducts, 500);
+        const timeout = setTimeout(() => {
+          setDebouncedQuery(query);
+        }, 500);
+
         return () => clearTimeout(timeout);
-      }, [query])
+      }, [query]);
+
+      useEffect(() => {
+        fetchProducts();
+      }, [debouncedQuery]);
 
       const value = {
         products, setProducts,
         query, setQuery,
-        loading, setLoading
+        loading, setLoading,
+        debouncedQuery
       }
 
       return <ProductContext.Provider value={value}>

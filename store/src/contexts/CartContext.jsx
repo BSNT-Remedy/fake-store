@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 const CartContext = createContext();
 
@@ -24,23 +24,27 @@ export const CartProvider = ({children}) => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart])
 
-    const addToCart = (product) => {
-        if(cart.some(p => p.id === product.id)){
-            console.log("product already in cart");
-            setShowToast({show: true, inCart: true, productName: product.title});
+    const addToCart = useCallback((product) => {
+
+        setCart(prev => {
+            if(prev.some(p => p.id === product.id)){
+                console.log("product already in cart");
+                setShowToast({show: true, inCart: true, productName: product.title});
+                setTimeout(() => {
+                    setShowToast({show: false, inCart: false});
+                }, 3000);
+                return prev;
+            }
+            
+            console.log(`${product.title} added to cart`)
+            setShowToast({show: true, inCart: false, productName: product.title});
             setTimeout(() => {
                 setShowToast({show: false, inCart: false});
             }, 3000);
-            return;
-        }
-        
-        setCart(prev => [...prev, product]);
-        console.log(`${product.title} added to cart`)
-        setShowToast({show: true, inCart: false, productName: product.title});
-        setTimeout(() => {
-            setShowToast({show: false, inCart: false});
-        }, 3000);
-    }
+
+            return [...prev, product];
+        });        
+    }, [setCart, setShowToast]);
 
     const removeFromCart = (id) => {
         setCart(prev => prev.filter(item => item.id !== id))
