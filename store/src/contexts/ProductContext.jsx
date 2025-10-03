@@ -9,19 +9,22 @@ export const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [query, setQuery] = useState("");
-    const [debouncedQuery, setDebouncedQuery] = useState("");
+    const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    async function fetchProducts() {
+      async function fetchProducts() {
         setLoading(true);
     
         try{
-          if(!query.trim()){
+          if(!mounted){
             const data = await getProducts();
-            setProducts(data);
             setAllProducts(data);
+            setProducts(data.slice(0, 30));
+            setMounted(true);
           } else {
-            const data = await searchProducts(debouncedQuery);
+            const data = allProducts.filter(p => 
+              p.title.toLowerCase().includes(query)
+            );
             setProducts(data);
           }
         } catch(error) {
@@ -37,21 +40,22 @@ export const ProductProvider = ({children}) => {
     
       useEffect(() => {
         const timeout = setTimeout(() => {
-          setDebouncedQuery(query);
+          if(!query.trim() && mounted){
+            setProducts(allProducts);
+            return;
+          }
+
+          fetchProducts();
         }, 500);
 
         return () => clearTimeout(timeout);
       }, [query]);
 
-      useEffect(() => {
-        fetchProducts();
-      }, [debouncedQuery]);
-
       const value = {
         products, setProducts,
         query, setQuery,
         loading, setLoading,
-        debouncedQuery
+        // debouncedQuery
       }
 
       return <ProductContext.Provider value={value}>
