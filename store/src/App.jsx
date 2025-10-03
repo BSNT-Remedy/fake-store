@@ -4,12 +4,14 @@ import { useProduct } from "./contexts/ProductContext";
 import { useCart } from "./contexts/CartContext";
 import ProductCard from "./components/ProductCard";
 import Toast from "./components/Toast";
+import Pagination from "./components/Pagination";
 
 function App() {
   const {
     products, 
     query, setQuery,
     loading, 
+    page, setPage
   } = useProduct();
   
   const {showToast, addToCart} = useCart();
@@ -29,11 +31,13 @@ function App() {
     </div>
     <div className="products">
       {loading ? "Loading..." : 
-        (
-          products.map((p) => (
+        <>
+          {products.map((p) => (
             <ProductCard product={p} addToCart={handleAddToCart} key={p.id}/>
-          ))
-        )
+          ))}
+
+          <Pagination page={page} setPage={setPage}/>
+        </>
       }
       {!loading && products.length === 0 && <div>No items found.</div>}
     </div>

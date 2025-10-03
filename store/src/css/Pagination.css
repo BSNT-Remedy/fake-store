@@ -1,0 +1,28 @@
+.pagination {
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    justify-items: center;
+    padding: 20px;
+    margin: 10px;
+}
+
+.pagination h3 {
+    color: white;
+}
+
+.page-buttons button{
+    background-color: rgb(102, 102, 102);
+    color: black;
+    font-size: 20px;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.page-buttons button:hover {
+    background-color: black;
+    color: white;
+}

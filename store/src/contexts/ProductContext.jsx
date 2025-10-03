@@ -1,16 +1,24 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect,useLayoutEffect, useMemo } from "react";
 import { getProducts, searchProducts } from "../services/api";
+import { scrollToTop } from "../utilities/scrollToTop";
 
 const ProductContext = createContext();
 
 export const useProduct = () => useContext(ProductContext);
 
 export const ProductProvider = ({children}) => {
-    const [products, setProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [query, setQuery] = useState("");
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(0);
+
+    const products = useMemo(() => {
+      const start = page * 30;
+      const end = Math.min(start + 30, 194);
+      console.log("End: ", end);
+      return allProducts.slice(start, end);
+    }, [page, allProducts])
 
       async function fetchProducts() {
         setLoading(true);
@@ -19,7 +27,6 @@ export const ProductProvider = ({children}) => {
           if(!mounted){
             const data = await getProducts();
             setAllProducts(data);
-            setProducts(data.slice(0, 30));
             setMounted(true);
           } else {
             const data = allProducts.filter(p => 
@@ -40,22 +47,21 @@ export const ProductProvider = ({children}) => {
     
       useEffect(() => {
         const timeout = setTimeout(() => {
-          if(!query.trim() && mounted){
-            setProducts(allProducts);
-            return;
-          }
-
           fetchProducts();
         }, 500);
 
         return () => clearTimeout(timeout);
       }, [query]);
 
+      useLayoutEffect(() => {
+        scrollToTop();
+      }, [page]);
+
       const value = {
-        products, setProducts,
+        products,
         query, setQuery,
         loading, setLoading,
-        // debouncedQuery
+        page, setPage,
       }
 
       return <ProductContext.Provider value={value}>
