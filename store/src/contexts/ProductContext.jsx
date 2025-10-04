@@ -12,13 +12,28 @@ export const ProductProvider = ({children}) => {
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
+    const [maxPage, setMaxPage] = useState(0);
+
+    const filtered = useMemo(() => {
+      if(!query.trim()) return allProducts;
+      if(query.trim()){
+        setPage(0);
+        return allProducts.filter(p => 
+          p.title.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+    }, [query, allProducts]);
 
     const products = useMemo(() => {
       const start = page * 30;
-      const end = Math.min(start + 30, 194);
-      console.log("End: ", end);
-      return allProducts.slice(start, end);
-    }, [page, allProducts])
+      const end = Math.min(start + 30, filtered.length);
+      setMaxPage(Math.ceil(filtered.length / 30) - 1);
+
+      console.log("Query: ", filtered.length);
+      console.log("Max Page : ", maxPage);
+
+      return filtered.slice(start, end);
+    }, [page, filtered, query])
 
       async function fetchProducts() {
         setLoading(true);
@@ -28,11 +43,6 @@ export const ProductProvider = ({children}) => {
             const data = await getProducts();
             setAllProducts(data);
             setMounted(true);
-          } else {
-            const data = allProducts.filter(p => 
-              p.title.toLowerCase().includes(query)
-            );
-            setProducts(data);
           }
         } catch(error) {
           console.log(error);
@@ -44,14 +54,6 @@ export const ProductProvider = ({children}) => {
       useEffect(() => {
         fetchProducts();
       }, [])
-    
-      useEffect(() => {
-        const timeout = setTimeout(() => {
-          fetchProducts();
-        }, 500);
-
-        return () => clearTimeout(timeout);
-      }, [query]);
 
       useLayoutEffect(() => {
         scrollToTop();
@@ -62,6 +64,7 @@ export const ProductProvider = ({children}) => {
         query, setQuery,
         loading, setLoading,
         page, setPage,
+        maxPage
       }
 
       return <ProductContext.Provider value={value}>

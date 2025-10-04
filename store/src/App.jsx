@@ -11,7 +11,8 @@ function App() {
     products, 
     query, setQuery,
     loading, 
-    page, setPage
+    page, setPage,
+    maxPage
   } = useProduct();
   
   const {showToast, addToCart} = useCart();
@@ -30,16 +31,16 @@ function App() {
         />
     </div>
     <div className="products">
+      {!loading && products.length === 0 && <div>No items found.</div>}
       {loading ? "Loading..." : 
         <>
           {products.map((p) => (
             <ProductCard product={p} addToCart={handleAddToCart} key={p.id}/>
           ))}
 
-          <Pagination page={page} setPage={setPage}/>
+          {products.length > 0 && <Pagination page={page} setPage={setPage} maxPage={maxPage}/>}
         </>
       }
-      {!loading && products.length === 0 && <div>No items found.</div>}
     </div>
 
     {showToast.show && <Toast inCart={showToast.inCart} productName={showToast.productName}/>}

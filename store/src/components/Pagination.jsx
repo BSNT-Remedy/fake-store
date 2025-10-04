@@ -1,8 +1,10 @@
 import "../css/Pagination.css";
 
-export default function Pagination({page, setPage}) {
+export default function Pagination({page, setPage, maxPage}) {
+	console.log("Max Page: ", maxPage);
+
 	return <div className="pagination">
-		<h3>Page {page + 1} of 7</h3>
+		<h3>Page {page + 1} of {maxPage+1}</h3>
 
 		<div className="page-buttons">
 			<button onClick={() => setPage(0)}>
@@ -12,10 +14,10 @@ export default function Pagination({page, setPage}) {
 				{"<"}
 			</button>
 
-			<button onClick={() => setPage(prev => Math.min(prev + 1, 6))}>
+			<button onClick={() => setPage(prev => Math.min(prev + 1, maxPage))}>
 				{">"}
 			</button>
-			<button onClick={() => setPage(6)}>
+			<button onClick={() => setPage(maxPage)}>
 				{">>"}
 			</button>
 		</div>
