@@ -15,25 +15,31 @@ export const ProductProvider = ({children}) => {
     const [maxPage, setMaxPage] = useState(0);
 
     const filtered = useMemo(() => {
+      setPage(0);
       if(!query.trim()) return allProducts;
       if(query.trim()){
-        setPage(0);
         return allProducts.filter(p => 
           p.title.toLowerCase().includes(query.toLowerCase())
         );
       }
     }, [query, allProducts]);
 
+    const productsPerPage = 30;
+
     const products = useMemo(() => {
-      const start = page * 30;
-      const end = Math.min(start + 30, filtered.length);
-      setMaxPage(Math.ceil(filtered.length / 30) - 1);
+      const start = page * productsPerPage;
+      const end = Math.min(start + productsPerPage, filtered.length);
 
       console.log("Query: ", filtered.length);
+      console.log("Start: ", start, " End : ", end);
       console.log("Max Page : ", maxPage);
 
       return filtered.slice(start, end);
-    }, [page, filtered, query])
+    }, [page, filtered, query]);
+
+    useEffect(() => {
+      setMaxPage(Math.ceil(filtered.length / productsPerPage) - 1);
+    }, [page, filtered, query]);
 
       async function fetchProducts() {
         setLoading(true);
