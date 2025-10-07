@@ -14,15 +14,38 @@ export const ProductProvider = ({children}) => {
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
 
+    const [category, setCategory] = useState("all");
+    // const [sort, setSort] = useState("");
+    // const [price, setPrice] = useState("n/a");
+
+    const categories = [
+      "beauty", "fragrances", "furniture", "groceries", "home-decoration",
+      "kitchen-accessories", "laptops", "mens-shirts", "mens-shoes",
+      "mens-watches", "mobile-accessories", "motorcycle", "skin-care",
+      "smartphones", "sports-accessories", "sunglasses", "tablets",
+      "tops", "vehicle", "womens-bags", "womens-dresses",
+      "womens-jewellery", "womens-shoes", "womens-watches"
+    ];    
+
     const filtered = useMemo(() => {
       setPage(0);
-      if(!query.trim()) return allProducts;
-      if(query.trim()){
-        return allProducts.filter(p => 
-          p.title.toLowerCase().includes(query.toLowerCase())
-        );
+      if(category === "all") {
+        if(!query.trim()) return allProducts;
+        if(query.trim()){
+          return allProducts.filter(p => 
+            p.title.toLowerCase().includes(query.toLowerCase())
+          );
+        }
+      }else {
+        if(!query.trim()) return allProducts.filter(p => p.category === category);
+        if(query.trim()){
+          return allProducts.filter(p => 
+            p.title.toLowerCase().includes(query.toLowerCase()) &&
+            p.category === category
+          );
+        }
       }
-    }, [query, allProducts]);
+    }, [query, allProducts, category]);
 
     const productsPerPage = 30;
 
@@ -66,11 +89,14 @@ export const ProductProvider = ({children}) => {
       }, [page]);
 
       const value = {
-        products,
+        products, categories,
         query, setQuery,
         loading, setLoading,
         page, setPage,
-        maxPage
+        maxPage,
+        category, setCategory,
+        // sort, setSort,
+        // price, setPrice
       }
 
       return <ProductContext.Provider value={value}>

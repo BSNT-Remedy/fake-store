@@ -8,11 +8,14 @@ import Pagination from "./components/Pagination";
 
 function App() {
   const {
-    products, 
+    products, categories,
     query, setQuery,
     loading, 
     page, setPage,
-    maxPage
+    maxPage,
+    category, setCategory,
+    // sort, setSort,
+    // price, setPrice
   } = useProduct();
   
   const {showToast, addToCart} = useCart();
@@ -30,6 +33,38 @@ function App() {
           placeholder="search an item..."
         />
     </div>
+    
+    <div className="filters">
+      <div className="category">
+
+          <p>Category :</p>
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="all">All</option>
+          {categories.map(c => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+      </div>
+      
+      
+      {/* <label style={{color: "white"}}> 
+        Sort:
+        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <option value="az">A-Z</option>
+          <option value="za">Z-A</option>
+        </select>
+      </label>
+
+      <label style={{color: "white"}}> 
+        Price:
+        <select value={price} onChange={(e) => setPrice(e.target.value)}>
+          <option value="n/a">N/A</option>
+          <option value="asc">Ascending</option>
+          <option value="des">Descending</option>
+        </select>
+      </label> */}
+    </div>
+
     <div className="products">
       {!loading && products.length === 0 && <div>No items found.</div>}
       {loading ? "Loading..." : 

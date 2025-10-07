@@ -25,3 +25,27 @@
 .search-bar input::placeholder {
     color: rgb(165, 165, 165);
 }
+
+.filters {
+    display: flex;
+    /* background-color: blue; */
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px;
+}
+
+.category {
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+    gap: 5px;
+}
+
+.category select {
+    width: 150px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+}
