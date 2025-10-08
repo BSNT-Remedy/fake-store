@@ -15,7 +15,6 @@ function App() {
     maxPage,
     category, setCategory,
     sort, setSort,
-    // price, setPrice
   } = useProduct();
   
   const {showToast, addToCart} = useCart();
@@ -46,24 +45,17 @@ function App() {
         </select>
       </div>
       
-      
-       <label style={{color: "white"}}> 
-        Sort:
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
-          <option value="" selected>default</option>
-          <option value="az">A-Z</option>
-          <option value="za">Z-A</option>
-        </select>
-      </label>
-      {/*
-      <label style={{color: "white"}}> 
-        Price:
-        <select value={price} onChange={(e) => setPrice(e.target.value)}>
-          <option value="n/a">N/A</option>
-          <option value="asc">Ascending</option>
-          <option value="des">Descending</option>
-        </select>
-      </label> */}
+      <div className="sort">
+          <p>Sort :</p>
+          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="" selected>default</option>
+            <option value="az">A-Z</option>
+            <option value="za">Z-A</option>
+            <option value="asc">Ascending Price</option>
+            <option value="des">Descending Price</option>
+          </select>
+      </div>
+       
     </div>
 
     <div className="products">

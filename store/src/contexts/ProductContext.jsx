@@ -16,7 +16,6 @@ export const ProductProvider = ({children}) => {
 
     const [category, setCategory] = useState("");
     const [sort, setSort] = useState("");
-    // const [price, setPrice] = useState("n/a");
 
     const categories = [
       "beauty", "fragrances", "furniture", "groceries", "home-decoration",
@@ -48,6 +47,15 @@ export const ProductProvider = ({children}) => {
       
       if (sort === "za") {
         filteredProducts = [...filteredProducts].sort((a, b) => b.title.localeCompare(a.title));
+      }
+
+      if(sort === "asc") {
+        filteredProducts = [...filteredProducts].sort((a, b) => 
+          a.price - b.price);
+      }
+      if(sort === "des") {
+        filteredProducts = [...filteredProducts].sort((a, b) => 
+          b.price - a.price);
       }
       
       return filteredProducts;
@@ -106,7 +114,6 @@ export const ProductProvider = ({children}) => {
         maxPage,
         category, setCategory,
         sort, setSort,
-        // price, setPrice
       }
 
       return <ProductContext.Provider value={value}>
