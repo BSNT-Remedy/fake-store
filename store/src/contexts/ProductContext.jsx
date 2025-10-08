@@ -14,8 +14,8 @@ export const ProductProvider = ({children}) => {
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
 
-    const [category, setCategory] = useState("all");
-    // const [sort, setSort] = useState("");
+    const [category, setCategory] = useState("");
+    const [sort, setSort] = useState("");
     // const [price, setPrice] = useState("n/a");
 
     const categories = [
@@ -28,24 +28,34 @@ export const ProductProvider = ({children}) => {
     ];    
 
     const filtered = useMemo(() => {
-      setPage(0);
-      if(category === "all") {
-        if(!query.trim()) return allProducts;
-        if(query.trim()){
-          return allProducts.filter(p => 
-            p.title.toLowerCase().includes(query.toLowerCase())
-          );
-        }
-      }else {
-        if(!query.trim()) return allProducts.filter(p => p.category === category);
-        if(query.trim()){
-          return allProducts.filter(p => 
-            p.title.toLowerCase().includes(query.toLowerCase()) &&
-            p.category === category
-          );
-        }
+      let filteredProducts = allProducts;
+      
+      if(query.trim()){
+        filteredProducts = allProducts.filter(p => 
+          p.title.toLowerCase().includes(query.toLowerCase())
+        );
       }
-    }, [query, allProducts, category]);
+
+      if(category) {
+        filteredProducts = filteredProducts.filter(p => (
+          p.category === category
+        ))
+      }
+
+      if(sort === "az") {
+        filteredProducts = [...filteredProducts].sort((a, b) => a.title.localeCompare(b.title));
+      } 
+      
+      if (sort === "za") {
+        filteredProducts = [...filteredProducts].sort((a, b) => b.title.localeCompare(a.title));
+      }
+      
+      return filteredProducts;
+    }, [query, allProducts, category, sort]);
+
+    useEffect(() => {
+      setPage(0);
+    }, [query, category, sort])
 
     const productsPerPage = 30;
 
@@ -95,7 +105,7 @@ export const ProductProvider = ({children}) => {
         page, setPage,
         maxPage,
         category, setCategory,
-        // sort, setSort,
+        sort, setSort,
         // price, setPrice
       }
 

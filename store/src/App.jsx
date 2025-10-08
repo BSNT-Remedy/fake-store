@@ -14,7 +14,7 @@ function App() {
     page, setPage,
     maxPage,
     category, setCategory,
-    // sort, setSort,
+    sort, setSort,
     // price, setPrice
   } = useProduct();
   
@@ -39,7 +39,7 @@ function App() {
 
           <p>Category :</p>
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          <option value="all">All</option>
+          <option value="">All</option>
           {categories.map(c => (
             <option key={c} value={c}>{c}</option>
           ))}
@@ -47,14 +47,15 @@ function App() {
       </div>
       
       
-      {/* <label style={{color: "white"}}> 
+       <label style={{color: "white"}}> 
         Sort:
         <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <option value="" selected>default</option>
           <option value="az">A-Z</option>
           <option value="za">Z-A</option>
         </select>
       </label>
-
+      {/*
       <label style={{color: "white"}}> 
         Price:
         <select value={price} onChange={(e) => setPrice(e.target.value)}>
