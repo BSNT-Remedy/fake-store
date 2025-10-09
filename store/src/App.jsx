@@ -14,7 +14,7 @@ function App() {
     page, setPage,
     maxPage,
     category, setCategory,
-    sort, setSort,
+    sortFilter, setSortFilter,
   } = useProduct();
   
   const {showToast, addToCart} = useCart();
@@ -47,7 +47,7 @@ function App() {
       
       <div className="sort">
           <p>Sort :</p>
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <select value={sortFilter} onChange={(e) => setSortFilter(e.target.value)}>
             <option value="" selected>default</option>
             <option value="az">A-Z</option>
             <option value="za">Z-A</option>
