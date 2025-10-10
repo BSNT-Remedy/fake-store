@@ -9,7 +9,6 @@ export const useProduct = () => useContext(ProductContext);
 
 export const ProductProvider = ({children}) => {
   const [allProducts, setAllProducts] = useState([]);
-  const [query, setQuery] = useState("");
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -17,19 +16,15 @@ export const ProductProvider = ({children}) => {
 
   const sort = searchParams.get("sort") || "default";
   const pageNum = parseInt(searchParams.get("page") || "1", 10);
+  const searchQuery = searchParams.get("query") || "";
+  const productCategory = searchParams.get("category") || "";
 
+  const [query, setQuery] = useState(searchQuery);
   const [page, setPage] = useState(pageNum);
   const [maxPage, setMaxPage] = useState(0);
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(productCategory);
   const [sortFilter, setSortFilter] = useState(sort);
-
-  // useEffect(() => {
-  //   const params = new URLSearchParams(searchParams);
-  //   params.set("sort", sortFilter);
-  //   params.set("page", page);
-  //   setSearchParams(params);
-  // }, [page, sortFilter]);
 
   const categories = [
     "beauty", "fragrances", "furniture", "groceries", "home-decoration",
@@ -81,8 +76,15 @@ export const ProductProvider = ({children}) => {
   }, [query, category, sortFilter])
 
   useEffect(() => {
-    setSearchParams({sort: sortFilter, page: page});
-  }, [sortFilter, page]);
+    const params = {};
+
+    if(query.trim()) params.query = query;
+    if(category) params.category = category;
+    params.sort = sortFilter;
+    params.page = page;
+
+    setSearchParams(params);
+  }, [sortFilter, page, query, category]);
 
   const productsPerPage = 30;
 
